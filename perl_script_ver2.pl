@@ -6,8 +6,6 @@ use File::Find;
 use Cwd qw();
 use Sys::Syslog qw(:DEFAULT :standard :macros);
 
-# my $this_script = Cwd::abs_path(".") . "/" . $0; #get current running script full path
-
 # get current dir
 my $deletedir = Cwd::cwd();
 
