@@ -6,10 +6,12 @@ use File::Find;
 use Cwd qw();
 use Sys::Syslog qw(:DEFAULT :standard :macros);
 
+# my $this_script = Cwd::abs_path(".") . "/" . $0; #get current running script full path
+
 # get current dir
 my $deletedir = Cwd::cwd();
 
-#create new file
+#create a new file
 open my $fh, '>', 'output.txt';
 print {$fh} "some random text" . "\n" ;
 close $fh;
@@ -21,7 +23,7 @@ my $ctime = time();          # get current time
 my $age = 60;                # age in seconds to go back
 find ( sub {
   my $file = $File::Find::name;
-  if ( -f $file ) {
+  if ( -f $file and $file ne Cwd::abs_path(".") . "/" . $0 ) {
     push (@file_list, $file);
   }
 }, @find_dir);
@@ -38,4 +40,3 @@ openlog("", 'ndelay', 'local2');
 syslog('info', "One file created in %s directory!", $deletedir);
 syslog('info', "Files older than 60s deleted from the %s directory!", $deletedir);
 closelog( );
-
